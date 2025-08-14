@@ -13,21 +13,31 @@ let currentSuggestionIndex = -1;
 
 const cities = [];
 
-        async function checkWeather(city) {
-            if(!city){
+    async function checkWeather(city) {
+            if(!city || city.trim() === ""){
+                errorDiv.innerHTML = "<p> please enter a city name first</p>";
+                errorDiv.style.display = "block";
+                weatherDiv.style.display = "none";
                 return;
-            }
-            const response = await fetch(apiUrl + city + `&appid=${apiKey}`)
-
-    if(response.status == 404){
-                document.querySelector(".error").style.display="block";
-                document.querySelector(".Weather").style.display="none";
                 
-                return;
+            }
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`)
+    if(response.status == 404){
+        errorDiv.innerHTML = "<p>Invalid city name </p>";
+        errorDiv.style.display = "block";
+        weatherDiv.style.display = "none";
+        return;
+    }
+    const data = await response.json();
+    if(data.cod && data.cod === "404"){
+               errorDiv.innerHTML = "<p>Invalid city name </p>";
+               document.querySelector(".error").style.display="block";
+               document.querySelector(".Weather").style.display="none";
+               return;
         }
     else{
 
-        var data = await response.json();
+       
             
         document.querySelector(".city").innerHTML = data.name;
         document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
@@ -182,3 +192,8 @@ searchBox.addEventListener("input",()=>{
       weatherDiv.classList.remove("blur");
     }
 });
+searchBox.addEventListener("focus", ()=>{
+    if (errorDiv.style.display === "block" && errorDiv.textContent.includes("please enter a city name first")){
+        errorDiv.style.display= "none";
+    }
+})
