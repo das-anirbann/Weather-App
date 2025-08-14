@@ -4,7 +4,7 @@ const searchBox = document.querySelector(".search input");
 const searchButton = document.querySelector(".search-btn");
 const WeatherIcon = document.querySelector(".Weather-icon");
 const suggestionsDiv = document.querySelector(".suggestions");
-const geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q="
+const geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q="
 const clearBtn = document.querySelector(".clear-btn");
 const weatherDiv = document.querySelector(".Weather");
 const errorDiv = document.querySelector(".error");
